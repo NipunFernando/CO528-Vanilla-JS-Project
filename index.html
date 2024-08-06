@@ -3,6 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Angle Selector</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 400px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 10px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            margin-bottom: 20px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #007bff;
+            cursor: pointer;
+        }
+        .radio-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .radio-container label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dynamic Angle Selector</h1>
+        <input type="number" id="angleInput" min="0" max="360" value="0">
+        <input type="range" id="angleSlider" min="0" max="360" value="0">
+        <div class="radio-container">
+            <label><input type="radio" name="anglePreset" value="0" id="angle0"> 0°</label>
+            <label><input type="radio" name="anglePreset" value="45" id="angle45"> 45°</label>
+            <label><input type="radio" name="anglePreset" value="60" id="angle60"> 60°</label>
+            <label><input type="radio" name="anglePreset" value="90" id="angle90"> 90°</label>
+            <label><input type="radio" name="anglePreset" value="180" id="angle180"> 180°</label>
+        </div>
+    </div>
+    <script>
+        const angleInput = document.getElementById('angleInput');
+        const angleSlider = document.getElementById('angleSlider');
+        const radioButtons = document.querySelectorAll('input[type="radio"]');
+
+        function updateAngle(value) {
+            const adjustedValue = ((value % 360) + 360) % 360;
+            angleInput.value = adjustedValue;
+            angleSlider.value = adjustedValue;
+            radioButtons.forEach(radio => {
+                radio.checked = parseInt(radio.value) === adjustedValue;
+            });
+        }
+
+        angleInput.addEventListener('input', (e) => updateAngle(parseFloat(e.target.value)));
+        angleSlider.addEventListener('input', (e) => updateAngle(parseInt(e.target.value)));
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', (e) => updateAngle(parseInt(e.target.value)));
+        });
+    </script>
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Angle Picker - React</title>
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
@@ -123,4 +230,4 @@
     </div>
     <script src="script.js"></script>
 </body>
-</html> -->
+</html> --> -->
